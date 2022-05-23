@@ -28,6 +28,7 @@ class Account extends StatelessWidget {
           TextButton.icon(
             icon: const Icon(Icons.person),
             onPressed: () async {
+              await _auth.reload();
               await _auth.signOut();
             },
             label: const Text('Sign Out'),

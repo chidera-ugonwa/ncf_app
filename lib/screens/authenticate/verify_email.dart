@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-//import 'package:myapp/screens/home/home.dart';
+import 'package:myapp/screens/home/home.dart';
 import 'package:myapp/services/auth.dart';
-import 'package:myapp/screens/authenticate/sign_in.dart';
+//import 'package:myapp/screens/authenticate/sign_in.dart';
 
 class VerifyEmail extends StatefulWidget {
   const VerifyEmail({Key? key}) : super(key: key);
@@ -59,7 +59,7 @@ class _VerifyEmailState extends State<VerifyEmail> {
                           } else {
                             Navigator.pushReplacement(
                               context,
-                              MaterialPageRoute(builder: (context) => SignIn(toggleView: toggleView)),
+                              MaterialPageRoute(builder: (context) => const Home()),
                             );
                           }
                         }
