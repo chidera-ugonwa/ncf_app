@@ -29,7 +29,7 @@ class _PasswordResetState extends State<PasswordReset> {
               child: Icon(Icons.notifications, color: Colors.white),
             ),
             const Expanded(
-                child: Text('Password Reset Email Sent',
+                child: Text('Password Reset Email Sent, Click the back arrow above to sign in',
                     style: TextStyle(
                       color: Colors.white,
                     ))),
@@ -137,7 +137,6 @@ class _PasswordResetState extends State<PasswordReset> {
                   });
                   String test = check.toString();
                   setState(() => error = test);
-                  Navigator.pop(context);
                 }
               },
               child: const Text(
@@ -152,6 +151,10 @@ class _PasswordResetState extends State<PasswordReset> {
             ),
           );
     return Scaffold(
+      appBar: AppBar(
+        title: 'Reset Password',
+        backgroundColor: Colors.blue[900],
+      ),
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Container(
