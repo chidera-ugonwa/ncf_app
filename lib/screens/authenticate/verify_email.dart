@@ -56,6 +56,7 @@ class _VerifyEmailState extends State<VerifyEmail> {
                               context,
                               MaterialPageRoute(builder: (context) => const Home()),
                             );
+                            print('check oo');
                           }
                         }
                       },
