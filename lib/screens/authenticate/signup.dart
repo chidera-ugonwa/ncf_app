@@ -227,9 +227,6 @@ class _SignUpState extends State<SignUp> {
                     isLoading = true;
                   });
                   dynamic result = await _auth.registerWithEmailAndPassword(email, password);
-                  setState(() {
-                    isLoading = false;
-                  });
                   if (result != "Instance of 'UserId'") {
                     setState(() => error = result);
                     //print(result);

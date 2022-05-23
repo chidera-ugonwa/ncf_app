@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-//import 'package:myapp/screens/home/home.dart';
+import 'package:myapp/screens/home/home.dart';
 import 'package:myapp/services/auth.dart';
 
 class VerifyEmail extends StatefulWidget {
@@ -14,8 +14,6 @@ class _VerifyEmailState extends State<VerifyEmail> {
 
   @override
   Widget build(BuildContext context) {
-    //print('Email Verification:');
-    //print(_auth.currentUser?.emailVerified);
     return Scaffold(
         appBar: AppBar(
           title: const Text('Verify Email'),
@@ -54,7 +52,10 @@ class _VerifyEmailState extends State<VerifyEmail> {
                           if (!_auth.currentUser!.emailVerified) {
                             //print('verify');
                           } else {
-                            Navigator.pop(context);
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => const Home()),
+                            );
                           }
                         }
                       },
