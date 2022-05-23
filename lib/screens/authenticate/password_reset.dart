@@ -152,34 +152,32 @@ class _PasswordResetState extends State<PasswordReset> {
           );
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Center(
-        child: SingleChildScrollView(
-          child: Container(
-            color: Colors.white,
-            child: Padding(
-              padding: const EdgeInsets.all(36.0),
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    showAlert(),
-                    const SizedBox(height: 45),
-                    Text(
-                      'Enter your Email to Reset your Password',
-                      style: TextStyle(
-                        color: Colors.indigo.shade900,
-                        fontSize: 25,
-                      ),
+      body: SingleChildScrollView(
+        child: Container(
+          color: Colors.white,
+          child: Padding(
+            padding: const EdgeInsets.all(36.0),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  showAlert(),
+                  const SizedBox(height: 45),
+                  Text(
+                    'Enter your Email to Reset your Password',
+                    style: TextStyle(
+                      color: Colors.indigo.shade900,
+                      fontSize: 25,
                     ),
-                    const SizedBox(height: 45),
-                    emailField,
-                    const SizedBox(height: 25),
-                    resetPasswordButton,
-                    const SizedBox(height: 05),
-                  ],
-                ),
+                  ),
+                  const SizedBox(height: 45),
+                  emailField,
+                  const SizedBox(height: 25),
+                  resetPasswordButton,
+                  const SizedBox(height: 05),
+                ],
               ),
             ),
           ),
