@@ -13,14 +13,14 @@ class _PasswordResetState extends State<PasswordReset> {
   final _formKey = GlobalKey<FormState>();
 
 // define error
-  String error = '';
+  String error = 'null';
 
 //showAlert widget defined
   Widget showAlert() {
-    if (error != '') {
+    if (error != 'null') {
       if (error == 'Password Reset Email Sent') {
         return Container(
-          color: Colors.blueAccent,
+          color: Colors.indigo.shade900,
           width: double.infinity,
           padding: const EdgeInsets.all(8.0),
           child: Row(children: [
@@ -60,7 +60,7 @@ class _PasswordResetState extends State<PasswordReset> {
           IconButton(
             icon: const Icon(Icons.close),
             onPressed: () {
-              setState(() => error = '');
+              setState(() => error = 'null');
             },
             color: Colors.white,
           ),
@@ -166,9 +166,10 @@ class _PasswordResetState extends State<PasswordReset> {
                   children: <Widget>[
                     showAlert(),
                     const SizedBox(height: 45),
-                    const Text(
+                    Text(
                       'Enter your Email to Reset your Password',
                       style: TextStyle(
+                        color: Colors.indigo.shade900,
                         fontSize: 25,
                       ),
                     ),
