@@ -45,27 +45,21 @@ class _VerifyEmailState extends State<VerifyEmail> {
                 const SizedBox(height: 16),
                 const Text("PS: After you verify your mail, click the 'I've Verified' button below", style: TextStyle(fontSize: 14)),
                 const SizedBox(height: 16),
-                Material(
-                    elevation: 5,
-                    borderRadius: BorderRadius.circular(30),
-                    color: Colors.blue[900],
-                    child: MaterialButton(
-                      padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
-                      minWidth: MediaQuery.of(context).size.width,
-                      onPressed: () async {
-                        await _auth.reload();
-                        if (_auth.currentUser != null) {
-                          if (!_auth.currentUser!.emailVerified) {
-                          } else {
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(builder: (context) => const Home()),
-                            );
-                          }
-                        }
-                      },
-                      child: const Text("I've verified", style: TextStyle(color: Colors.white, fontSize: 13)),
-                    )),
+                OutlinedButton(
+                  onPressed: () async {
+                    await _auth.reload();
+                    if (_auth.currentUser != null) {
+                      if (!_auth.currentUser!.emailVerified) {
+                      } else {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(builder: (context) => const Home()),
+                        );
+                      }
+                    }
+                  },
+                  child: const Text("I've verified", style: TextStyle(color: Colors.white, fontSize: 13)),
+                ),
               ],
             ),
           ),
