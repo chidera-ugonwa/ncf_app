@@ -20,7 +20,7 @@ class _PasswordResetState extends State<PasswordReset> {
     if (error != 'null') {
       if (error == 'Password Reset Email Sent') {
         return Container(
-          color: Colors.indigo.shade900,
+          color: Colors.blue.shade900,
           width: double.infinity,
           padding: const EdgeInsets.all(8.0),
           child: Row(children: [
@@ -161,7 +161,7 @@ class _PasswordResetState extends State<PasswordReset> {
               child: Form(
                 key: _formKey,
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     showAlert(),
