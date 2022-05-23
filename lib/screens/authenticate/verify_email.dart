@@ -18,43 +18,54 @@ class _VerifyEmailState extends State<VerifyEmail> {
     //print(_auth.currentUser?.emailVerified);
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Account Information'),
-          backgroundColor: Colors.blue[400],
+          title: const Text('Verify Email'),
+          backgroundColor: Colors.blue[900],
           elevation: 0.0,
-          actions: <Widget>[
-            TextButton.icon(
-              icon: const Icon(Icons.person),
-              onPressed: () async {
-                await _auth.signOut();
-              },
-              label: const Text('Sign Out'),
-              style: TextButton.styleFrom(
-                primary: Colors.white,
-              ),
-            ),
-          ],
         ),
-        body: Column(
-          children: [
-            const Text('A Verification Link has been sent to your email'),
-            const SizedBox(height: 16),
-            OutlinedButton(
-              onPressed: () async {
-                await _auth.reload();
-                if (_auth.currentUser != null) {
-                  if (!_auth.currentUser!.emailVerified) {
-                    //print('verify');
-                  } else {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(builder: (context) => const Home()),
-                    );
-                  }
-                }
-              },
-              child: const Text("I've verified"),
-            )
-          ],
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(36.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text('A Verification Link has been sent to your email'),
+                const SizedBox(height: 16),
+                const Text("Did'nt get an email?"),
+                const SizedBox(height: 16),
+                const Text("1. Check that the email you entered is correct"),
+                const SizedBox(height: 16),
+                const Text("2. Check the spam folder in your mail"),
+                const SizedBox(height: 16),
+                const Text("3. Check your network connection"),
+                const SizedBox(height: 16),
+                const Text("PS: After you verify your mail, click the 'I've Verified' button below"),
+                const SizedBox(height: 16),
+                Material(
+                    elevation: 5,
+                    borderRadius: BorderRadius.circular(30),
+                    color: Colors.blue[900],
+                    child: MaterialButton(
+                      padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
+                      minWidth: MediaQuery.of(context).size.width,
+                      onPressed: () async {
+                        await _auth.reload();
+                        if (_auth.currentUser != null) {
+                          if (!_auth.currentUser!.emailVerified) {
+                            //print('verify');
+                          } else {
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(builder: (context) => const Home()),
+                            );
+                          }
+                        }
+                      },
+                      child: const Text("I've verified"),
+                    )),
+              ],
+            ),
+          ),
         ));
   }
 }
