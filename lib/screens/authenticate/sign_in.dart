@@ -149,7 +149,8 @@ class _SignInState extends State<SignIn> {
                     isLoading = false;
                   });
                   if (result != "Instance of 'UserId'") {
-                    setState(() => error = result);
+                    String converter = result.toString();
+                    setState(() => error = converter);
                   }
                 }
               },
