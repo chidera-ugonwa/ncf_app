@@ -137,6 +137,7 @@ class _PasswordResetState extends State<PasswordReset> {
                   });
                   String test = check.toString();
                   setState(() => error = test);
+                  Navigator.pop(context);
                 }
               },
               child: const Text(
