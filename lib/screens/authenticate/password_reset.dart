@@ -127,15 +127,17 @@ class _PasswordResetState extends State<PasswordReset> {
               padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
               minWidth: MediaQuery.of(context).size.width,
               onPressed: () async {
-                setState(() {
-                  isLoading = true;
-                });
-                resetPassword();
-                setState(() {
-                  isLoading = false;
-                });
-                String test = check.toString();
-                setState(() => error = test);
+                if (_formKey.currentState!.validate()) {
+                  setState(() {
+                    isLoading = true;
+                  });
+                  resetPassword();
+                  setState(() {
+                    isLoading = false;
+                  });
+                  String test = check.toString();
+                  setState(() => error = test);
+                }
               },
               child: const Text(
                 'Reset Password',
