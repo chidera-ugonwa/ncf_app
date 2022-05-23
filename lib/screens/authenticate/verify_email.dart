@@ -52,7 +52,7 @@ class _VerifyEmailState extends State<VerifyEmail> {
                           if (!_auth.currentUser!.emailVerified) {
                             //print('verify');
                           } else {
-                            Navigator.push(
+                            Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(builder: (context) => const Home()),
                             );
