@@ -27,17 +27,17 @@ class _VerifyEmailState extends State<VerifyEmail> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text('A Verification Link has been sent to your email'),
+                const Text('A Verification Link has been sent to your email', style: TextStyle(fontSize: 14)),
                 const SizedBox(height: 16),
                 const Text("Did'nt get an email?"),
                 const SizedBox(height: 16),
-                const Text("1. Check that the email you entered is correct"),
+                const Text("1. Check that the email you entered is correct", style: TextStyle(fontSize: 14)),
                 const SizedBox(height: 16),
-                const Text("2. Check the spam folder in your mail"),
+                const Text("2. Check the spam folder in your mail", style: TextStyle(fontSize: 14)),
                 const SizedBox(height: 16),
-                const Text("3. Check your network connection"),
+                const Text("3. Check your network connection", style: TextStyle(fontSize: 14)),
                 const SizedBox(height: 16),
-                const Text("PS: After you verify your mail, click the 'I've Verified' button below"),
+                const Text("PS: After you verify your mail, click the 'I've Verified' button below", style: TextStyle(fontSize: 14)),
                 const SizedBox(height: 16),
                 Material(
                     elevation: 5,
@@ -60,7 +60,7 @@ class _VerifyEmailState extends State<VerifyEmail> {
                           }
                         }
                       },
-                      child: const Text("I've verified"),
+                      child: const Text("I've verified", style: TextStyle(color: Colors.white, fontSize: 13)),
                     )),
               ],
             ),
