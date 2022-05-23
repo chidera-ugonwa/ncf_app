@@ -150,19 +150,30 @@ class _PasswordResetState extends State<PasswordReset> {
           );
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        title: const Text('Reset Password'),
-        backgroundColor: Colors.blue[400],
-        elevation: 0.0,
-      ),
       body: Center(
-        child: Column(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.center, children: <Widget>[
-          showAlert(),
-          const SizedBox(height: 120),
-          emailField,
-          const SizedBox(height: 45),
-          resetPasswordButton,
-        ]),
+        child: SingleChildScrollView(
+          child: Container(
+            color: Colors.white,
+            child: Padding(
+              padding: const EdgeInsets.all(36.0),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    showAlert(),
+                    const SizedBox(height: 45),
+                    emailField,
+                    const SizedBox(height: 25),
+                    resetPasswordButton,
+                    const SizedBox(height: 05),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }
