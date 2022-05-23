@@ -166,7 +166,13 @@ class _PasswordResetState extends State<PasswordReset> {
                   children: <Widget>[
                     showAlert(),
                     const SizedBox(height: 45),
-                    const Text('Enter your Email to Reset your Password'),
+                    const Text(
+                      'Enter your Email to Reset your Password',
+                      style: TextStyle(
+                        fontSize: 25,
+                      ),
+                    ),
+                    const SizedBox(height: 45),
                     emailField,
                     const SizedBox(height: 25),
                     resetPasswordButton,
