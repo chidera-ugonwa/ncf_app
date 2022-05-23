@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:myapp/screens/home/home.dart';
+//import 'package:myapp/screens/home/home.dart';
 import 'package:myapp/services/auth.dart';
+import 'package:myapp/screens/authenticate/sign_in.dart';
 
 class VerifyEmail extends StatefulWidget {
   const VerifyEmail({Key? key}) : super(key: key);
@@ -11,6 +12,11 @@ class VerifyEmail extends StatefulWidget {
 
 class _VerifyEmailState extends State<VerifyEmail> {
   final AuthService _auth = AuthService();
+
+  bool showSignIn = true;
+  void toggleView() {
+    setState(() => showSignIn = !showSignIn);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,13 +56,11 @@ class _VerifyEmailState extends State<VerifyEmail> {
                         await _auth.reload();
                         if (_auth.currentUser != null) {
                           if (!_auth.currentUser!.emailVerified) {
-                            //print('verify');
                           } else {
-                            Navigator.push(
+                            Navigator.pushReplacement(
                               context,
-                              MaterialPageRoute(builder: (context) => const Home()),
+                              MaterialPageRoute(builder: (context) => SignIn(toggleView: toggleView)),
                             );
-                            print('check oo');
                           }
                         }
                       },
