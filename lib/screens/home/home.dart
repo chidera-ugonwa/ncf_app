@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:myapp/screens/account.dart';
-import 'package:myapp/screens/give.dart';
-import 'package:myapp/screens/library.dart';
-import 'package:myapp/screens/meet.dart';
-import 'package:myapp/screens/scripture.dart';
+import 'package:myapp/screens/account/account.dart';
+import 'package:myapp/screens/give/give.dart';
+import 'package:myapp/screens/library/library.dart';
+import 'package:myapp/screens/meet/meet.dart';
+import 'package:myapp/screens/scripture/scripture.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
