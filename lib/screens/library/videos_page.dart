@@ -4,11 +4,11 @@ import 'package:myapp/screens/library/preview_page.dart';
 import 'package:myapp/screens/library/string.dart';
 import 'package:intl/intl.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+class VideoScreen extends StatefulWidget {
+  const VideoScreen({Key? key}) : super(key: key);
 
   @override
-  _HomePageState createState() => _HomePageState();
+  _VideoScreenState createState() => _VideoScreenState();
 }
 
 class VideoTile extends StatelessWidget {
@@ -199,7 +199,7 @@ class VideoTile extends StatelessWidget {
   }
 }
 
-class _HomePageState extends State<HomePage> {
+class _VideoScreenState extends State<VideoScreen> {
   final MUXClient _muxClient = MUXClient();
   bool isProcessing = false;
 

@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:myapp/screens/library/videos_page.dart';
+import 'package:myapp/screens/library/audio_screen.dart';
+import 'package:myapp/screens/library/downloads_screen.dart';
 
 class Library extends StatefulWidget {
   const Library({Key? key}) : super(key: key);
@@ -10,9 +13,28 @@ class Library extends StatefulWidget {
 class _LibraryState extends State<Library> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      backgroundColor: Colors.grey,
-      body: Text('1'),
+    return MaterialApp(
+      home: DefaultTabController(
+        length: 3,
+        child: Scaffold(
+          appBar: AppBar(
+              bottom: const TabBar(
+                tabs: [
+                  Tab(text: 'Videos'),
+                  Tab(text: 'Audio'),
+                  Tab(text: 'Download'),
+                ],
+              ),
+              title: const Text('Library')),
+          body: const TabBarView(
+            children: [
+              VideoScreen(),
+              AudioScreen(),
+              DownloadScreen()
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
