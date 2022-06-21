@@ -22,7 +22,7 @@ class Account extends StatelessWidget {
       backgroundColor: Colors.grey.shade100,
       appBar: AppBar(
         title: const Text('Account Information'),
-        backgroundColor: Colors.blue[400],
+        backgroundColor: Colors.blue[800],
         elevation: 0.0,
         actions: <Widget>[
           TextButton.icon(
