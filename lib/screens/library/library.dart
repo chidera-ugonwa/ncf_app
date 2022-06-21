@@ -18,14 +18,16 @@ class _LibraryState extends State<Library> {
         length: 3,
         child: Scaffold(
           appBar: AppBar(
-              bottom: const TabBar(
-                tabs: [
-                  Tab(text: 'Videos'),
-                  Tab(text: 'Audio'),
-                  Tab(text: 'Download'),
-                ],
-              ),
-              title: const Text('Library')),
+            bottom: const TabBar(
+              tabs: [
+                Tab(text: 'Videos'),
+                Tab(text: 'Audio'),
+                Tab(text: 'Download'),
+              ],
+            ),
+            title: const Text('Library'),
+            backgroundColor: Colors.blue[800],
+          ),
           body: const TabBarView(
             children: [
               VideoScreen(),
