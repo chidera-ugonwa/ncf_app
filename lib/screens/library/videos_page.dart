@@ -220,19 +220,6 @@ class _VideoScreenState extends State<VideoScreen> {
       },
       child: Scaffold(
         backgroundColor: Colors.white,
-        appBar: AppBar(
-          elevation: 0,
-          title: const Text('Videos'),
-          backgroundColor: Colors.blue[800],
-          actions: [
-            IconButton(
-              icon: const Icon(Icons.refresh),
-              onPressed: () {
-                setState(() {});
-              },
-            ),
-          ],
-        ),
         body: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
