@@ -261,7 +261,7 @@ class _VideoScreenState extends State<VideoScreen> {
                   return const Text(
                     'No videos present',
                     style: TextStyle(
-                      color: Colors.black45,
+                      color: Colors.black,
                     ),
                   );
                 },

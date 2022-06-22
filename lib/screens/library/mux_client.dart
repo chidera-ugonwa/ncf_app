@@ -32,7 +32,7 @@ class MUXClient {
         return assetData;
       }
     } catch (e) {
-      //print('Error starting build: $e');
+      print('Error starting build: $e');
       throw Exception('Failed to retrieve videos from MUX');
     }
 
