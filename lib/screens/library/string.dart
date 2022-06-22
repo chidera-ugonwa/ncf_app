@@ -18,6 +18,3 @@ const imageTypeSize = 'thumbnail.jpg?time=5&width=200';
 
 // Content Type used in API calls
 const contentType = 'application/json';
-
-// Test video url provided by MUX
-const demoVideoUrl = 'https://storage.googleapis.com/muxdemofiles/mux-video-intro.mp4';

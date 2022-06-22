@@ -223,59 +223,49 @@ class _VideoScreenState extends State<VideoScreen> {
         body: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Container(
-              color: Colors.grey,
-              child: Padding(
-                  padding: const EdgeInsets.only(
-                    top: 16.0,
-                    left: 16.0,
-                    right: 16.0,
-                    bottom: 24.0,
-                  ),
-                  child: Expanded(
-                    child: FutureBuilder(
-                      future: _muxClient.getAssetList(),
-                      builder: (context, snapshot) {
-                        if (snapshot.hasData) {
-                          dynamic assetData = snapshot.data;
-                          int length = assetData?.data?.length;
+            Expanded(
+              child: FutureBuilder(
+                future: _muxClient.getAssetList(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    dynamic assetData = snapshot.data;
+                    int length = assetData?.data?.length;
 
-                          return ListView.separated(
-                            physics: const BouncingScrollPhysics(),
-                            itemCount: length,
-                            itemBuilder: (context, index) {
-                              DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(int.parse(assetData.data[index].createdAt) * 1000);
-                              DateFormat formatter = DateFormat.yMd().add_jm();
-                              String dateTimeString = formatter.format(dateTime);
+                    return ListView.separated(
+                      physics: const BouncingScrollPhysics(),
+                      itemCount: length,
+                      itemBuilder: (context, index) {
+                        DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(int.parse(assetData.data[index].createdAt) * 1000);
+                        DateFormat formatter = DateFormat.yMd().add_jm();
+                        String dateTimeString = formatter.format(dateTime);
 
-                              String currentStatus = assetData.data[index].status;
-                              bool isReady = currentStatus == 'ready';
+                        String currentStatus = assetData.data[index].status;
+                        bool isReady = currentStatus == 'ready';
 
-                              String? playbackId = isReady ? assetData.data[index].playbackIds[0].id : null;
+                        String? playbackId = isReady ? assetData.data[index].playbackIds[0].id : null;
 
-                              dynamic thumbnailURL = isReady ? '$muxImageBaseUrl/$playbackId/$imageTypeSize' : null;
+                        dynamic thumbnailURL = isReady ? '$muxImageBaseUrl/$playbackId/$imageTypeSize' : null;
 
-                              return VideoTile(
-                                assetData: assetData.data[index],
-                                thumbnailUrl: thumbnailURL,
-                                isReady: isReady,
-                                dateTimeString: dateTimeString,
-                              );
-                            },
-                            separatorBuilder: (_, __) => const SizedBox(
-                              height: 16.0,
-                            ),
-                          );
-                        }
-                        return const Text(
-                          'No videos present',
-                          style: TextStyle(
-                            color: Colors.black45,
-                          ),
+                        return VideoTile(
+                          assetData: assetData.data[index],
+                          thumbnailUrl: thumbnailURL,
+                          isReady: isReady,
+                          dateTimeString: dateTimeString,
                         );
                       },
+                      separatorBuilder: (_, __) => const SizedBox(
+                        height: 16.0,
+                      ),
+                    );
+                  }
+                  return const Text(
+                    'No videos present',
+                    style: TextStyle(
+                      color: Colors.black45,
                     ),
-                  )),
+                  );
+                },
+              ),
             ),
           ],
         ),
