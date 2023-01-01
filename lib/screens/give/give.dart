@@ -10,9 +10,12 @@ class Give extends StatefulWidget {
   State<Give> createState() => _GiveState();
 }
 
-class _GiveState extends State<Give> {
+class _GiveState extends State<Give> with AutomaticKeepAliveClientMixin {
   String branch = '';
   Map detailsMap = {};
+
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   void initState() {
@@ -42,6 +45,7 @@ class _GiveState extends State<Give> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Give'),

@@ -11,9 +11,13 @@ class Scripture extends StatefulWidget {
   State<Scripture> createState() => _ScriptureState();
 }
 
-class _ScriptureState extends State<Scripture> {
+class _ScriptureState extends State<Scripture>
+    with AutomaticKeepAliveClientMixin {
   List _bibleList = [];
   bool isLoading = true;
+
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   void initState() {
@@ -43,6 +47,7 @@ class _ScriptureState extends State<Scripture> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       appBar: AppBar(
         title: const Text("Scripture"),

@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
 import 'package:easy_splash_screen/easy_splash_screen.dart';
+import 'package:just_audio_background/just_audio_background.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -15,6 +16,11 @@ Future<void> main() async {
           "458828247862-sugtje4dtt7kbeml24vdamp08lcptr4j.apps.googleusercontent.com",
       projectId: "ncf-app-6bf1b",
     ),
+  );
+  await JustAudioBackground.init(
+    androidNotificationChannelId: 'com.ryanheise.bg_demo.channel.audio',
+    androidNotificationChannelName: 'NCF',
+    androidNotificationOngoing: true,
   );
   runApp(const MyApp());
 }

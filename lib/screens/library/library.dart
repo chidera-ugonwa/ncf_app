@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:myapp/screens/library/Videos/videos_page.dart';
-import 'package:myapp/screens/library/Audios/audio_screen.dart';
-import 'package:myapp/screens/library/Downloads/downloads_screen.dart';
+import 'package:myapp/screens/library/videos/videos_page.dart';
+import 'package:myapp/screens/library/audios/audio_screen.dart';
+import 'package:myapp/screens/library/downloads/downloads_screen.dart';
 
 class Library extends StatefulWidget {
   const Library({Key? key}) : super(key: key);
@@ -10,9 +10,13 @@ class Library extends StatefulWidget {
   State<Library> createState() => _LibraryState();
 }
 
-class _LibraryState extends State<Library> {
+class _LibraryState extends State<Library> with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return MaterialApp(
       home: DefaultTabController(
         length: 3,
@@ -22,7 +26,7 @@ class _LibraryState extends State<Library> {
               tabs: [
                 Tab(text: 'Videos'),
                 Tab(text: 'Audio'),
-                Tab(text: 'Download'),
+                Tab(text: 'Books'),
               ],
             ),
             title: const Text('Library'),

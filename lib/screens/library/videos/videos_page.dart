@@ -11,12 +11,16 @@ class VideoPage extends StatefulWidget {
   State<VideoPage> createState() => _VideoPageState();
 }
 
-class _VideoPageState extends State<VideoPage> {
+class _VideoPageState extends State<VideoPage>
+    with AutomaticKeepAliveClientMixin<VideoPage> {
   dynamic _videoList;
   int _playList = 0;
   final String _playlistId = 'PLuX81RZk5-3Ys_CW7YE5SRTk9tVrLp0f_';
   dynamic _nextPageToken = '';
   dynamic _scrollController;
+
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   void initState() {
@@ -55,6 +59,7 @@ class _VideoPageState extends State<VideoPage> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
         body: Container(
             color: Colors.white,

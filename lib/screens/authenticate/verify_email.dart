@@ -75,9 +75,8 @@ class _VerifyEmailState extends State<VerifyEmail> {
                         }
                       }
                     },
-                    child: Text("I've verified",
-                        style:
-                            TextStyle(color: Colors.blue[900], fontSize: 13)),
+                    child: const Text("I've verified",
+                        style: TextStyle(color: Colors.white, fontSize: 13)),
                   ),
                 ),
               ],

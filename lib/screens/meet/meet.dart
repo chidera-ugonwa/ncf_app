@@ -10,13 +10,17 @@ class Meet extends StatefulWidget {
   State<Meet> createState() => _MeetState();
 }
 
-class _MeetState extends State<Meet> {
+class _MeetState extends State<Meet> with AutomaticKeepAliveClientMixin {
   final serverText = TextEditingController();
   final subjectText = TextEditingController(text: 'NCF Meeting');
   final generate = RandomPasswordGenerator();
 
   @override
+  bool get wantKeepAlive => true;
+
+  @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blue[800],
