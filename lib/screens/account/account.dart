@@ -33,7 +33,7 @@ class Account extends StatelessWidget {
             },
             label: const Text('Sign Out'),
             style: TextButton.styleFrom(
-              onSurface: Colors.white,
+              disabledForegroundColor: Colors.white,
             ),
           ),
         ],

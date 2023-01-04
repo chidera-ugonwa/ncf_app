@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/screens/library/videos/videos_page.dart';
 import 'package:myapp/screens/library/audios/audio_screen.dart';
-import 'package:myapp/screens/library/downloads/downloads_screen.dart';
+import 'package:myapp/screens/library/books/book_screen.dart';
 
 class Library extends StatefulWidget {
   const Library({Key? key}) : super(key: key);
@@ -33,7 +33,7 @@ class _LibraryState extends State<Library> with AutomaticKeepAliveClientMixin {
             backgroundColor: Colors.blue[800],
           ),
           body: const TabBarView(
-            children: [VideoPage(), AudioScreen(), DownloadScreen()],
+            children: [VideoPage(), AudioScreen(), BookScreen()],
           ),
         ),
       ),

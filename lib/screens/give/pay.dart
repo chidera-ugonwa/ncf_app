@@ -108,34 +108,6 @@ class _PayState extends State<Pay> {
   }
 
   _handlePaymentInitialization() async {
-    final style = FlutterwaveStyle(
-      appBarText: "Confirm Payment",
-      buttonColor: const Color(0xFF1565C0),
-      buttonTextStyle: const TextStyle(
-        color: Colors.white,
-        fontSize: 16,
-      ),
-      appBarColor: const Color(0xFF1565C0),
-      dialogCancelTextStyle: const TextStyle(
-        color: Colors.black,
-        fontSize: 18,
-      ),
-      dialogContinueTextStyle: const TextStyle(
-        color: Colors.blue,
-        fontSize: 18,
-      ),
-      mainBackgroundColor: Colors.white,
-      mainTextStyle:
-          const TextStyle(color: Colors.black, fontSize: 19, letterSpacing: 2),
-      dialogBackgroundColor: Colors.grey,
-      appBarIcon: const Icon(Icons.arrow_back, color: Colors.white),
-      buttonText: "Pay $selectedCurrency${amountController.text}",
-      appBarTitleTextStyle: const TextStyle(
-        color: Colors.white,
-        fontSize: 18,
-      ),
-    );
-
     final Customer customer = Customer(
         name: "$_firstName $_lastName",
         phoneNumber: _phoneNumber,
@@ -148,7 +120,6 @@ class _PayState extends State<Pay> {
 
     final Flutterwave flutterwave = Flutterwave(
         context: context,
-        style: style,
         publicKey: getPublicKey(),
         currency: selectedCurrency,
         redirectUrl: "https://google.com",
