@@ -54,8 +54,11 @@ class _PassageState extends State<Passage> {
         body: Center(
           child: isLoading
               ? const CircularProgressIndicator()
-              : SingleChildScrollView(
-                  child: Text(_passageMap["content"].toString())),
+              : Container(
+                  padding: const EdgeInsets.all(10.0),
+                  child: SingleChildScrollView(
+                      child: SelectableText(_passageMap["content"].toString())),
+                ),
         ));
   }
 }

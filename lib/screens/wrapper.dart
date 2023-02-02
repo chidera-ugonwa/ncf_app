@@ -5,7 +5,6 @@ import 'package:myapp/screens/home/home.dart';
 import 'package:provider/provider.dart';
 import 'package:myapp/screens/authenticate/verify_email.dart';
 
-//import 'package:myapp/models/user.dart';
 class Wrapper extends StatefulWidget {
   const Wrapper({Key? key}) : super(key: key);
   @override

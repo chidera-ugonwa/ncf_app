@@ -8,6 +8,7 @@ String _email = '';
 String _phoneNumber = '';
 String _firstName = '';
 String _lastName = '';
+bool isLoading = false;
 
 class Pay extends StatefulWidget {
   final String publicKey;
@@ -23,7 +24,7 @@ class _PayState extends State<Pay> {
 
   String selectedCurrency = "NGN";
 
-  bool isTestMode = true;
+  bool isTestMode = false;
   //final pbk = "FLWPUBK_TEST";
 
   @override
@@ -40,6 +41,7 @@ class _PayState extends State<Pay> {
       _lastName = (prefs.getString('lastName') ?? '');
       _phoneNumber = (prefs.getString('phoneNumber') ?? '');
     });
+    debugPrint("$_email+$_firstName+$_lastName+$_phoneNumber");
   }
 
   @override
@@ -61,39 +63,27 @@ class _PayState extends State<Pay> {
               const SizedBox(height: 20),
               _buildTextField(
                   labelText: "Enter Amount", controller: amountController),
-              Container(
-                width: double.infinity,
-                margin: const EdgeInsets.fromLTRB(0, 20, 0, 10),
-                child: Row(
-                  // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text("Use Debug"),
-                    Switch(
-                      onChanged: (value) => {
-                        setState(() {
-                          isTestMode = value;
-                        })
-                      },
-                      value: isTestMode,
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                width: double.infinity,
-                height: 50,
-                margin: const EdgeInsets.fromLTRB(0, 20, 0, 10),
-                child: ElevatedButton(
-                  onPressed: _onPressed,
-                  style: ButtonStyle(
-                      backgroundColor:
-                          MaterialStateProperty.all(Colors.blue[800])),
-                  child: const Text(
-                    "Make Payment",
-                    style: TextStyle(color: Colors.white),
-                  ),
-                ),
-              )
+              isLoading
+                  ? const CircularProgressIndicator(
+                      backgroundColor: Colors.grey,
+                      color: Colors.blue,
+                      strokeWidth: 5,
+                    )
+                  : Container(
+                      width: double.infinity,
+                      height: 50,
+                      margin: const EdgeInsets.fromLTRB(0, 20, 0, 10),
+                      child: ElevatedButton(
+                        onPressed: _onPressed,
+                        style: ButtonStyle(
+                            backgroundColor:
+                                MaterialStateProperty.all(Colors.blue[800])),
+                        child: const Text(
+                          "Make Payment",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                    )
             ],
           ),
         ),
@@ -102,40 +92,14 @@ class _PayState extends State<Pay> {
   }
 
   _onPressed() {
+    setState(() => isLoading = true);
     if (formKey.currentState!.validate()) {
       _handlePaymentInitialization();
     }
+    setState(() => isLoading = false);
   }
 
   _handlePaymentInitialization() async {
-    final style = FlutterwaveStyle(
-      appBarText: "Confirm Payment",
-      buttonColor: const Color(0xFF1565C0),
-      buttonTextStyle: const TextStyle(
-        color: Colors.white,
-        fontSize: 16,
-      ),
-      appBarColor: const Color(0xFF1565C0),
-      dialogCancelTextStyle: const TextStyle(
-        color: Colors.black,
-        fontSize: 18,
-      ),
-      dialogContinueTextStyle: const TextStyle(
-        color: Colors.blue,
-        fontSize: 18,
-      ),
-      mainBackgroundColor: Colors.white,
-      mainTextStyle:
-          const TextStyle(color: Colors.black, fontSize: 19, letterSpacing: 2),
-      dialogBackgroundColor: Colors.grey,
-      appBarIcon: const Icon(Icons.arrow_back, color: Colors.white),
-      buttonText: "Pay $selectedCurrency${amountController.text}",
-      appBarTitleTextStyle: const TextStyle(
-        color: Colors.white,
-        fontSize: 18,
-      ),
-    );
-
     final Customer customer = Customer(
         name: "$_firstName $_lastName",
         phoneNumber: _phoneNumber,
@@ -148,8 +112,7 @@ class _PayState extends State<Pay> {
 
     final Flutterwave flutterwave = Flutterwave(
         context: context,
-        style: style,
-        publicKey: getPublicKey(),
+        publicKey: widget.publicKey,
         currency: selectedCurrency,
         redirectUrl: "https://google.com",
         txRef: const Uuid().v1(),
@@ -158,7 +121,7 @@ class _PayState extends State<Pay> {
         //subAccounts: subAccounts,
         paymentOptions: "card",
         customization: Customization(title: "Test Payment"),
-        isTestMode: isTestMode);
+        isTestMode: false);
     final ChargeResponse response = await flutterwave.charge();
     // ignore: unnecessary_null_comparison
     if (response != null) {
@@ -169,14 +132,10 @@ class _PayState extends State<Pay> {
     }
   }
 
-  String getPublicKey() {
-    return widget.publicKey;
-  }
-
   Future<void> showLoading(String message) {
     return showDialog(
       context: context,
-      barrierDismissible: false,
+      barrierDismissible: true,
       builder: (BuildContext context) {
         return AlertDialog(
           content: Container(

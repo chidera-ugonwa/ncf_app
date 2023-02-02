@@ -49,15 +49,23 @@ class _ChaptersState extends State<Chapters> {
         title: Text(widget.bookId),
         backgroundColor: Colors.blue[800],
       ),
-      body: Container(
-        color: Colors.white,
-        child: Center(
-          child: isLoading
-              ? const CircularProgressIndicator()
-              : ListView.builder(
-                  itemCount: _chapterList.length,
-                  itemBuilder: (context, index) {
-                    return ListTile(
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Container(
+          color: Colors.white,
+          child: Center(
+            child: isLoading
+                ? const CircularProgressIndicator()
+                : GridView.builder(
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                            childAspectRatio: 1,
+                            crossAxisCount: 6,
+                            crossAxisSpacing: 20,
+                            mainAxisSpacing: 20),
+                    itemCount: _chapterList.length,
+                    itemBuilder: (context, index) {
+                      return InkWell(
                         onTap: () async {
                           Navigator.push(context,
                               MaterialPageRoute(builder: (context) {
@@ -66,9 +74,17 @@ class _ChaptersState extends State<Chapters> {
                                 passageId: _chapterList[index]["id"]);
                           }));
                         },
-                        leading: const Icon(Icons.list),
-                        title: Text(_chapterList[index]["number"]));
-                  }),
+                        child: GridTile(
+                            child: Container(
+                                height: 5,
+                                decoration: BoxDecoration(
+                                    border: Border.all(color: Colors.blue)),
+                                child: Center(
+                                    child:
+                                        Text(_chapterList[index]["number"])))),
+                      );
+                    }),
+          ),
         ),
       ),
     );

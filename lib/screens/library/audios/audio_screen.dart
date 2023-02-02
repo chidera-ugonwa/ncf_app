@@ -6,6 +6,7 @@ import 'package:rxdart/rxdart.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 import 'package:audio_session/audio_session.dart';
+import 'package:just_audio_background/just_audio_background.dart';
 
 class AudioScreen extends StatefulWidget {
   const AudioScreen({Key? key}) : super(key: key);
@@ -13,15 +14,19 @@ class AudioScreen extends StatefulWidget {
   _AudioScreenState createState() => _AudioScreenState();
 }
 
-class _AudioScreenState extends State<AudioScreen> with WidgetsBindingObserver {
+class _AudioScreenState extends State<AudioScreen>
+    with AutomaticKeepAliveClientMixin {
+  static int _nextMediaId = 0;
   final _player = AudioPlayer();
   List _audioList = [];
   bool isLoading = true;
 
   @override
+  bool get wantKeepAlive => true;
+
+  @override
   void initState() {
     super.initState();
-    ambiguate(WidgetsBinding.instance)!.addObserver(this);
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
       statusBarColor: Colors.black,
     ));
@@ -53,7 +58,8 @@ class _AudioScreenState extends State<AudioScreen> with WidgetsBindingObserver {
   }
 
   void displayPersistentBottomSheet(String id, String name) {
-    _init(id);
+    _init(id, name);
+
     Scaffold.of(context).showBottomSheet<void>((BuildContext context) {
       return Column(mainAxisSize: MainAxisSize.min, children: [
         StreamBuilder<PositionData>(
@@ -78,7 +84,7 @@ class _AudioScreenState extends State<AudioScreen> with WidgetsBindingObserver {
     });
   }
 
-  Future<void> _init(String id) async {
+  Future<void> _init(String id, String title) async {
     // Inform the operating system of our app's audio attributes etc.
     // We pick a reasonable default for an app that plays speech.
     final session = await AudioSession.instance;
@@ -91,8 +97,19 @@ class _AudioScreenState extends State<AudioScreen> with WidgetsBindingObserver {
     // Try to load audio from a source and catch any errors.
     try {
       // AAC example: https://dl.espressif.com/dl/audio/ff-16b-2c-44100hz.aac
-      await _player.setAudioSource(AudioSource.uri(Uri.parse(
-          "https://drive.google.com/uc?export=download&confirm=no_antivirus&id=$id")));
+      await _player.setAudioSource(ConcatenatingAudioSource(children: [
+        AudioSource.uri(
+          Uri.parse(
+              "https://drive.google.com/uc?export=download&confirm=no_antivirus&id=$id"),
+          tag: MediaItem(
+            id: '${_nextMediaId++}',
+            album: "David Ogbueli",
+            title: title,
+            artUri: Uri.parse(
+                'https://drive.google.com/uc?export=view&id=193qhbAygSUyOHIxiFAonnsENpA6SuQmW'),
+          ),
+        ),
+      ]));
     } catch (e) {
       debugPrint("Error loading audio source: $e");
     }
@@ -100,21 +117,8 @@ class _AudioScreenState extends State<AudioScreen> with WidgetsBindingObserver {
 
   @override
   void dispose() {
-    ambiguate(WidgetsBinding.instance)!.removeObserver(this);
-    // Release decoders and buffers back to the operating system making them
-    // available for other apps to use.
     _player.dispose();
     super.dispose();
-  }
-
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.paused) {
-      // Release the player's resources when not in use. We use "stop" so that
-      // if the app resumes later, it will still remember what position to
-      // resume from.
-      _player.stop();
-    }
   }
 
   /// Collects the data useful for displaying in a seek bar, using a handy
@@ -129,39 +133,40 @@ class _AudioScreenState extends State<AudioScreen> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
-      appBar: AppBar(
-          title: const Text('Audio Messages'),
-          automaticallyImplyLeading: false),
       body: Container(
         padding: const EdgeInsets.only(top: 10),
         color: Colors.white,
         child: Center(
           child: isLoading
               ? const CircularProgressIndicator()
-              : ListView.separated(
-                  separatorBuilder: (context, index) => const SizedBox(
-                        height: 10,
-                      ),
-                  itemCount: _audioList.length,
-                  itemBuilder: (context, index) {
-                    return ListTile(
-                      leading: Image.network(
-                          'https://drive.google.com/uc?export=view&id=193qhbAygSUyOHIxiFAonnsENpA6SuQmW'),
-                      title: Text(_audioList[index]["name"]),
-                      onTap: () {
-                        displayPersistentBottomSheet(
-                            _audioList[index]['id'], _audioList[index]["name"]);
-                      },
-                    );
-                  }),
+              : Expanded(
+                  child: ListView.separated(
+                      separatorBuilder: (context, index) => const SizedBox(
+                            height: 10,
+                          ),
+                      itemCount: _audioList.length,
+                      itemBuilder: (context, index) {
+                        return ListTile(
+                          leading: Image.network(
+                              'https://drive.google.com/uc?export=view&id=193qhbAygSUyOHIxiFAonnsENpA6SuQmW'),
+                          title: Text(_audioList[index]["name"]),
+                          onTap: () {
+                            displayPersistentBottomSheet(
+                                _audioList[index]['id'],
+                                _audioList[index]["name"]);
+                          },
+                        );
+                      }),
+                ),
         ),
       ),
     );
   }
 }
 
-/// Displays the play/pause button and volume/speed sliders.
+/// Displays the play/pause button
 class ControlButtons extends StatelessWidget {
   final AudioPlayer player;
 
@@ -169,6 +174,7 @@ class ControlButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    player.play();
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -198,10 +204,9 @@ class ControlButtons extends StatelessWidget {
               );
             } else if (processingState != ProcessingState.completed) {
               return IconButton(
-                icon: const Icon(Icons.pause),
-                iconSize: 30.0,
-                onPressed: player.pause,
-              );
+                  icon: const Icon(Icons.pause),
+                  iconSize: 30.0,
+                  onPressed: player.pause);
             } else {
               return IconButton(
                 icon: const Icon(Icons.replay),

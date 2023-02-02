@@ -48,18 +48,52 @@ class _VideoPlayerState extends State<VideoPlayer> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.videoItem.video.title),
-      ),
-      body: Container(
-        padding: const EdgeInsets.all(8.0),
-        child: YoutubePlayer(
-          controller: _controller,
-          showVideoProgressIndicator: true,
-          onReady: () {
-            debugPrint('Player is ready.');
-            _isPlayerReady = true;
-          },
+      appBar:
+          AppBar(title: const Text('Video'), backgroundColor: Colors.blue[800]),
+      body: Scaffold(
+        body: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              YoutubePlayer(
+                controller: _controller,
+                showVideoProgressIndicator: true,
+                onReady: () {
+                  debugPrint('Player is ready.');
+                  _isPlayerReady = true;
+                },
+              ),
+              const SizedBox(height: 12),
+              Container(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(widget.videoItem.video.title,
+                    style: const TextStyle(fontSize: 24)),
+              ),
+              const Divider(thickness: 2.0, color: Colors.black),
+              Container(
+                  padding: const EdgeInsets.only(left: 8.0),
+                  child: const Text('Published At: ',
+                      style: TextStyle(fontSize: 17))),
+              const SizedBox(height: 12),
+              Container(
+                padding: const EdgeInsets.only(left: 8.0),
+                child: Text(widget.videoItem.video.publishedAt.toString(),
+                    style: const TextStyle(fontSize: 17)),
+              ),
+              const Divider(thickness: 2.0, color: Colors.black),
+              Container(
+                  padding: const EdgeInsets.only(left: 8.0),
+                  child: const Text('Description: ',
+                      style: TextStyle(fontSize: 17))),
+              const SizedBox(height: 12),
+              Container(
+                padding: const EdgeInsets.only(left: 8.0),
+                child: Text(widget.videoItem.video.description,
+                    style: const TextStyle(fontSize: 17)),
+              )
+            ],
+          ),
         ),
       ),
     );

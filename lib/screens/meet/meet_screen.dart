@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jitsi_meet_wrapper/jitsi_meet_wrapper.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Meeting extends StatefulWidget {
   const Meeting({Key? key}) : super(key: key);
@@ -13,13 +14,34 @@ class _MeetingState extends State<Meeting> {
   final roomText = TextEditingController();
   final subjectText = TextEditingController(text: "NCF Meeting");
   final tokenText = TextEditingController();
-  final userDisplayNameText = TextEditingController(text: "Plugin Test User");
-  final userEmailText = TextEditingController(text: "fake@email.com");
   final userAvatarUrlText = TextEditingController();
+
+  String username = '';
+  String firstName = '';
+  String lastName = '';
+  String profileImagePath = '';
+  String email = '';
 
   bool isAudioMuted = true;
   bool isAudioOnly = false;
   bool isVideoMuted = true;
+
+  _loadVariables() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      profileImagePath = (prefs.getString('profileImage') ?? '');
+      firstName = (prefs.getString('firstName') ?? '');
+      lastName = (prefs.getString('lastName') ?? '');
+      email = (prefs.getString('email') ?? '');
+      username = "$firstName $lastName";
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _loadVariables();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +91,10 @@ class _MeetingState extends State<Meeting> {
   _joinMeeting() async {
     String? serverUrl = serverText.text.trim().isEmpty ? null : serverText.text;
 
-    Map<FeatureFlag, Object> featureFlags = {};
+    Map<FeatureFlag, Object> featureFlags = {
+      FeatureFlag.isAddPeopleEnabled: false,
+      FeatureFlag.isInviteEnabled: false,
+    };
 
     // Define meetings options here
     var options = JitsiMeetingOptions(
@@ -80,8 +105,8 @@ class _MeetingState extends State<Meeting> {
       isAudioMuted: isAudioMuted,
       isAudioOnly: isAudioOnly,
       isVideoMuted: isVideoMuted,
-      userDisplayName: userDisplayNameText.text,
-      userEmail: userEmailText.text,
+      userDisplayName: username,
+      userEmail: email,
       featureFlags: featureFlags,
     );
 

@@ -121,11 +121,13 @@ class _SignUpState extends State<SignUp> {
       controller: firstNameEditingController,
       keyboardType: TextInputType.name,
       validator: (val) => val!.isEmpty ? 'Fill out this field' : null,
-      onSaved: (value) async {
+      onChanged: (val) async {
         SharedPreferences prefs = await SharedPreferences.getInstance();
-        firstNameEditingController.text = value!;
-        setState(() => _firstName = firstNameEditingController.text);
+        setState(() => _firstName = val.toString());
         prefs.setString('firstName', _firstName);
+      },
+      onSaved: (value) async {
+        firstNameEditingController.text = value!;
       },
       textInputAction: TextInputAction.next,
       decoration: InputDecoration(
@@ -145,11 +147,13 @@ class _SignUpState extends State<SignUp> {
       controller: lastNameEditingController,
       keyboardType: TextInputType.name,
       validator: (val) => val!.isEmpty ? 'Fill out this field' : null,
-      onSaved: (value) async {
+      onChanged: (val) async {
         SharedPreferences prefs = await SharedPreferences.getInstance();
-        lastNameEditingController.text = value!;
-        setState(() => _lastName = lastNameEditingController.text);
+        setState(() => _lastName = val.toString());
         prefs.setString('lastName', _lastName);
+      },
+      onSaved: (value) async {
+        lastNameEditingController.text = value!;
       },
       textInputAction: TextInputAction.next,
       decoration: InputDecoration(
@@ -169,11 +173,13 @@ class _SignUpState extends State<SignUp> {
       controller: emailEditingController,
       keyboardType: TextInputType.emailAddress,
       validator: (val) => val!.isEmpty ? 'Fill out this field' : null,
-      onSaved: (value) async {
+      onChanged: (val) async {
         SharedPreferences prefs = await SharedPreferences.getInstance();
-        emailEditingController.text = value!;
-        setState(() => _email = emailEditingController.text);
+        setState(() => _email = val.toString());
         prefs.setString('email', _email);
+      },
+      onSaved: (value) async {
+        emailEditingController.text = value!;
       },
       textInputAction: TextInputAction.next,
       decoration: InputDecoration(
@@ -193,11 +199,13 @@ class _SignUpState extends State<SignUp> {
       controller: phoneNumberEditingController,
       keyboardType: TextInputType.number,
       validator: (val) => val!.isEmpty ? 'Fill out this field' : null,
-      onSaved: (value) async {
+      onChanged: (val) async {
         SharedPreferences prefs = await SharedPreferences.getInstance();
-        phoneNumberEditingController.text = value!;
-        setState(() => _phoneNumber = phoneNumberEditingController.text);
+        setState(() => _phoneNumber = val.toString());
         prefs.setString('phoneNumber', _phoneNumber);
+      },
+      onSaved: (value) async {
+        phoneNumberEditingController.text = value!;
       },
       textInputAction: TextInputAction.next,
       decoration: InputDecoration(

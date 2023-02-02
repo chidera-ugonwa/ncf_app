@@ -47,92 +47,100 @@ class _GiveState extends State<Give> {
         title: const Text('Give'),
         backgroundColor: Colors.blue[800],
       ),
-      body: Container(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: <Widget>[
-            const Text('Give an Offering'),
-            Card(
-              elevation: 10.0,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: <Widget>[
-                  ListTile(
-                    title: Text(detailsMap['OfferingAccountNumber'] ?? ''),
-                    leading: Text(detailsMap['OfferingBankName'] ?? ''),
-                    subtitle: Text(detailsMap['OfferingAccountName'] ?? ''),
+      body: SingleChildScrollView(
+        child: InkWell(
+          child: Container(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              children: <Widget>[
+                const Text('Give an Offering', style: TextStyle(fontSize: 20)),
+                Card(
+                  elevation: 10.0,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: <Widget>[
+                      ListTile(
+                        title: Text(detailsMap['OfferingAccountNumber'] ?? ''),
+                        leading: Text(detailsMap['OfferingBankName'] ?? ''),
+                        subtitle: Text(detailsMap['OfferingAccountName'] ?? ''),
+                      ),
+                      TextButton(
+                          onPressed: () {
+                            Navigator.push(context,
+                                MaterialPageRoute(builder: (context) {
+                              return Pay(
+                                publicKey: detailsMap['Public Key'],
+                              );
+                            }));
+                          },
+                          child: const Text(
+                            'Pay with Card',
+                          )),
+                    ],
                   ),
-                  TextButton(
-                      onPressed: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) {
-                          return Pay(
-                            publicKey: detailsMap['Public Key'],
-                          );
-                        }));
-                      },
-                      child: const Text(
-                        'Pay with Card',
-                      )),
-                ],
-              ),
-            ),
-            const Text('Pay your Tithe'),
-            Card(
-              elevation: 10.0,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: <Widget>[
-                  ListTile(
-                    title: Text(detailsMap['TitheAccountNumber'] ?? ''),
-                    leading: Text(detailsMap['TitheBankName'] ?? ''),
-                    subtitle: Text(detailsMap['TitheAccountName'] ?? ''),
+                ),
+                const SizedBox(height: 12),
+                const Text('Pay your Tithe', style: TextStyle(fontSize: 20)),
+                Card(
+                  elevation: 10.0,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: <Widget>[
+                      ListTile(
+                        title: Text(detailsMap['TitheAccountNumber'] ?? ''),
+                        leading: Text(detailsMap['TitheBankName'] ?? ''),
+                        subtitle: Text(detailsMap['TitheAccountName'] ?? ''),
+                      ),
+                      TextButton(
+                          onPressed: () {
+                            Navigator.push(context,
+                                MaterialPageRoute(builder: (context) {
+                              return Pay(
+                                publicKey: detailsMap['Public Key'],
+                              );
+                            }));
+                          },
+                          child: const Text(
+                            'Pay with Card',
+                          )),
+                    ],
                   ),
-                  TextButton(
-                      onPressed: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) {
-                          return Pay(
-                            publicKey: detailsMap['Public Key'],
-                          );
-                        }));
-                      },
-                      child: const Text(
-                        'Pay with Card',
-                      )),
-                ],
-              ),
-            ),
-            const Text('Donate to the Church'),
-            Card(
-              elevation: 10.0,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: <Widget>[
-                  ListTile(
-                    title: Text(detailsMap['DonationsAccountNumber'] ?? ''),
-                    leading: Text(detailsMap['DonationsBankName'] ?? ''),
-                    subtitle: Text(detailsMap['DonationsAccountName'] ?? ''),
+                ),
+                const SizedBox(height: 12),
+                const Text('Donate to the Church',
+                    style: TextStyle(fontSize: 20)),
+                Card(
+                  elevation: 10.0,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: <Widget>[
+                      ListTile(
+                        title: Text(detailsMap['DonationsAccountNumber'] ?? ''),
+                        leading: Text(detailsMap['DonationsBankName'] ?? ''),
+                        subtitle:
+                            Text(detailsMap['DonationsAccountName'] ?? ''),
+                      ),
+                      TextButton(
+                          onPressed: () {
+                            Navigator.push(context,
+                                MaterialPageRoute(builder: (context) {
+                              return Pay(
+                                publicKey: detailsMap['Public Key'],
+                              );
+                            }));
+                          },
+                          child: const Text(
+                            'Pay with Card',
+                          )),
+                    ],
                   ),
-                  TextButton(
-                      onPressed: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) {
-                          return Pay(
-                            publicKey: detailsMap['Public Key'],
-                          );
-                        }));
-                      },
-                      child: const Text(
-                        'Pay with Card',
-                      )),
-                ],
-              ),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );

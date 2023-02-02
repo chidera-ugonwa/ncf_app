@@ -11,12 +11,17 @@ class VideoPage extends StatefulWidget {
   State<VideoPage> createState() => _VideoPageState();
 }
 
-class _VideoPageState extends State<VideoPage> {
+class _VideoPageState extends State<VideoPage>
+    with AutomaticKeepAliveClientMixin {
   dynamic _videoList;
   int _playList = 0;
   final String _playlistId = 'PLuX81RZk5-3Ys_CW7YE5SRTk9tVrLp0f_';
   dynamic _nextPageToken = '';
   dynamic _scrollController;
+  bool isLoading = true;
+
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   void initState() {
@@ -33,14 +38,53 @@ class _VideoPageState extends State<VideoPage> {
     _scrollController = ScrollController();
   }
 
-  _loadVideos() async {
-    VideoList tempVideosList = await Services.getVideosList(
-      playlistId: _playlistId,
-      pageToken: _nextPageToken,
+  Widget showAlert() {
+    return Container(
+      color: Colors.blue.shade800,
+      width: double.infinity,
+      padding: const EdgeInsets.all(8.0),
+      child: Row(children: [
+        const Padding(
+          padding: EdgeInsets.only(right: 8.0),
+          child: Icon(Icons.error_outline, color: Colors.white),
+        ),
+        Row(
+          children: [
+            const Expanded(
+                child: Text('Weak or No Internet Connection',
+                    style: TextStyle(
+                      color: Colors.white,
+                    ))),
+            TextButton(
+              child:
+                  const Text('Refresh', style: TextStyle(color: Colors.white)),
+              onPressed: () => _loadVideos(),
+            ),
+          ],
+        ),
+        IconButton(
+          icon: const Icon(Icons.close),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          color: Colors.white,
+        ),
+      ]),
     );
-    _nextPageToken = tempVideosList.nextPageToken;
-    _videoList.videos.addAll(tempVideosList.videos);
-    setState(() {});
+  }
+
+  _loadVideos() async {
+    try {
+      VideoList tempVideosList = await Services.getVideosList(
+        playlistId: _playlistId,
+        pageToken: _nextPageToken,
+      );
+      _nextPageToken = tempVideosList.nextPageToken;
+      _videoList.videos.addAll(tempVideosList.videos);
+      setState(() => isLoading = false);
+    } catch (e) {
+      showAlert();
+    }
   }
 
   Future<List> _loadPlaylist() async {
@@ -55,56 +99,64 @@ class _VideoPageState extends State<VideoPage> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
-        body: Container(
-            color: Colors.white,
-            child: Column(children: [
-              Expanded(
-                child: NotificationListener<ScrollEndNotification>(
-                  onNotification: (ScrollNotification notification) {
-                    if (_videoList.videos.length >= _playList) {
-                      return true;
-                    }
-                    if (notification.metrics.pixels ==
-                        notification.metrics.maxScrollExtent) {
-                      _loadVideos();
-                    }
-                    return true;
-                  },
-                  child: ListView.builder(
-                      controller: _scrollController,
-                      itemCount: _videoList.videos.length,
-                      itemBuilder: (context, index) {
-                        dynamic videoItem = _videoList.videos[index];
-                        return InkWell(
-                          onTap: () async {
-                            Navigator.push(context,
-                                MaterialPageRoute(builder: (context) {
-                              return VideoPlayer(
-                                videoItem: videoItem,
-                              );
-                            }));
-                          },
-                          child: Container(
-                            margin: const EdgeInsets.all(10),
-                            child: Row(children: [
-                              CachedNetworkImage(
-                                imageUrl: videoItem
-                                    .video.thumbnails.thumbnailsDefault.url,
-                              ),
-                              const SizedBox(width: 20),
-                              Flexible(
-                                child: Text(videoItem.video.title,
-                                    style: const TextStyle(
-                                      color: Colors.black87,
-                                    )),
-                              ),
-                            ]),
+        body: isLoading
+            ? const Center(child: CircularProgressIndicator())
+            : Container(
+                color: Colors.white,
+                child: Column(children: [
+                  Expanded(
+                    child: NotificationListener<ScrollEndNotification>(
+                      onNotification: (ScrollNotification notification) {
+                        if (_videoList.videos.length >= _playList) {
+                          return true;
+                        }
+                        if (notification.metrics.pixels ==
+                            notification.metrics.maxScrollExtent) {
+                          _loadVideos();
+                        }
+                        return true;
+                      },
+                      child: GridView.builder(
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                            childAspectRatio: 1.3,
+                            crossAxisCount: 1,
                           ),
-                        );
-                      }),
-                ),
-              ),
-            ])));
+                          controller: _scrollController,
+                          itemCount: _videoList.videos.length,
+                          itemBuilder: (context, index) {
+                            dynamic videoItem = _videoList.videos[index];
+                            return InkWell(
+                              onTap: () async {
+                                Navigator.push(context,
+                                    MaterialPageRoute(builder: (context) {
+                                  return VideoPlayer(
+                                    videoItem: videoItem,
+                                  );
+                                }));
+                              },
+                              child: GridTile(
+                                child: CachedNetworkImage(
+                                  fit: BoxFit.cover,
+                                  imageUrl: videoItem.video.thumbnails.high.url,
+                                ),
+                                footer: Container(
+                                  padding: const EdgeInsets.all(12.0),
+                                  color: Colors.white,
+                                  height: 60,
+                                  child: Text(videoItem.video.title,
+                                      style: const TextStyle(
+                                        fontSize: 19,
+                                        color: Colors.black87,
+                                      )),
+                                ),
+                              ),
+                            );
+                          }),
+                    ),
+                  ),
+                ])));
   }
 }

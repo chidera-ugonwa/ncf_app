@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:jitsi_meet_wrapper/jitsi_meet_wrapper.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CopyCode extends StatefulWidget {
   final dynamic meetingCode;
@@ -14,6 +15,30 @@ class _CopyCodeState extends State<CopyCode> {
   final serverText = TextEditingController();
   final subjectText = TextEditingController(text: 'NCF Meeting');
   bool isPressed = false;
+
+  String username = '';
+  String firstName = '';
+  String lastName = '';
+  String profileImagePath = '';
+  String email = '';
+
+  _loadVariables() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      profileImagePath = (prefs.getString('profileImage') ?? '');
+      firstName = (prefs.getString('firstName') ?? '');
+      lastName = (prefs.getString('lastName') ?? '');
+      email = (prefs.getString('email') ?? '');
+      username = "$firstName $lastName";
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _loadVariables();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -98,6 +123,8 @@ class _CopyCodeState extends State<CopyCode> {
     var options = JitsiMeetingOptions(
         roomNameOrUrl: widget.meetingCode,
         serverUrl: serverUrl,
+        userDisplayName: username,
+        userEmail: email,
         subject: subjectText.text,
         featureFlags: featureFlags);
 

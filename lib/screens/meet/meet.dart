@@ -22,45 +22,52 @@ class _MeetState extends State<Meet> {
         backgroundColor: Colors.blue[800],
         title: const Text('Meet'),
       ),
-      body: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              OutlinedButton(
-                onPressed: () async {
-                  String meetingCode = generate.randomPassword(
-                      letters: true,
-                      numbers: true,
-                      passwordLength: 9,
-                      specialChar: false,
-                      uppercase: true);
-                  Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return CopyCode(
-                      meetingCode: meetingCode,
-                    );
-                  }));
-                },
-                child: const Text('New meeting'),
-              ),
-              OutlinedButton(
-                  style: Theme.of(context).outlinedButtonTheme.style!.copyWith(
-                      side: MaterialStateProperty.all(
-                          const BorderSide(color: Colors.blue)),
-                      backgroundColor: MaterialStateColor.resolveWith(
-                          (states) => Colors.transparent),
-                      foregroundColor: MaterialStateColor.resolveWith(
-                          (states) => Colors.blue)),
+      body: Padding(
+        padding: const EdgeInsets.only(top: 10.0),
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                OutlinedButton(
                   onPressed: () async {
+                    String meetingCode = generate.randomPassword(
+                        letters: true,
+                        numbers: true,
+                        passwordLength: 9,
+                        specialChar: false,
+                        uppercase: true);
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) {
-                      return const Meeting();
+                      return CopyCode(
+                        meetingCode: meetingCode,
+                      );
                     }));
                   },
-                  child: const Text('Join with a code'))
-            ],
-          )
-        ],
+                  child: const Text('New meeting'),
+                ),
+                OutlinedButton(
+                    style: Theme.of(context)
+                        .outlinedButtonTheme
+                        .style!
+                        .copyWith(
+                            side: MaterialStateProperty.all(
+                                BorderSide(color: Colors.blue.shade800)),
+                            backgroundColor: MaterialStateColor.resolveWith(
+                                (states) => Colors.transparent),
+                            foregroundColor: MaterialStateColor.resolveWith(
+                                (states) => Colors.blue.shade800)),
+                    onPressed: () async {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return const Meeting();
+                      }));
+                    },
+                    child: const Text('Join with a code'))
+              ],
+            )
+          ],
+        ),
       ),
     );
   }
