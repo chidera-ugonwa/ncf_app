@@ -119,7 +119,7 @@ class _AccountState extends State<Account> {
                 children: [
                   const Text('Gallery'),
                   IconButton(
-                    color: Colors.blue,
+                    color: Colors.black,
                     icon: const Icon(Icons.image),
                     iconSize: 80,
                     onPressed: () {

@@ -33,28 +33,37 @@ class _AudioScreenState extends State<AudioScreen>
     getAudioList();
   }
 
+  retry() {
+    getAudioList();
+  }
+
   Future<List> getAudioList() async {
-    final url = Uri.https('www.googleapis.com', '/drive/v3/files', {
-      'q': "'1UqJRO-5nvaeGPTxUlA8yNX7xv0WOqk18' in parents",
-      'corpora': 'user',
-      'includeItemsFromAllDrives': 'true',
-      'supportsAllDrives': 'true',
-      'key': "AIzaSyAdy4Bf1OhH-WhmjBOtapu-diTkp63YWCc"
-    });
+    try {
+      final url = Uri.https('www.googleapis.com', '/drive/v3/files', {
+        'q': "'1UqJRO-5nvaeGPTxUlA8yNX7xv0WOqk18' in parents",
+        'corpora': 'user',
+        'includeItemsFromAllDrives': 'true',
+        'supportsAllDrives': 'true',
+        'key': "AIzaSyAdy4Bf1OhH-WhmjBOtapu-diTkp63YWCc"
+      });
 
-    // Await the HTTP GET response, then decode the
-    // JSON data it contains.
-    final response = await http.get(url);
-    final jsonResponse = convert.jsonDecode(response.body);
-    final files = jsonResponse['files'];
+      // Await the HTTP GET response, then decode the
+      // JSON data it contains.
+      final response = await http.get(url);
+      final jsonResponse = convert.jsonDecode(response.body);
+      final files = jsonResponse['files'];
 
-    //print(files);
-    setState(() {
-      _audioList = files;
-      isLoading = false;
-    });
+      //print(files);
+      setState(() {
+        _audioList = files;
+        isLoading = false;
+      });
 
-    return files;
+      return files;
+    } catch (e) {
+      retry();
+      return [];
+    }
   }
 
   void displayPersistentBottomSheet(String id, String name) {
@@ -141,25 +150,22 @@ class _AudioScreenState extends State<AudioScreen>
         child: Center(
           child: isLoading
               ? const CircularProgressIndicator()
-              : Expanded(
-                  child: ListView.separated(
-                      separatorBuilder: (context, index) => const SizedBox(
-                            height: 10,
-                          ),
-                      itemCount: _audioList.length,
-                      itemBuilder: (context, index) {
-                        return ListTile(
-                          leading: Image.network(
-                              'https://drive.google.com/uc?export=view&id=193qhbAygSUyOHIxiFAonnsENpA6SuQmW'),
-                          title: Text(_audioList[index]["name"]),
-                          onTap: () {
-                            displayPersistentBottomSheet(
-                                _audioList[index]['id'],
-                                _audioList[index]["name"]);
-                          },
-                        );
-                      }),
-                ),
+              : ListView.separated(
+                  separatorBuilder: (context, index) => const SizedBox(
+                        height: 10,
+                      ),
+                  itemCount: _audioList.length,
+                  itemBuilder: (context, index) {
+                    return ListTile(
+                      leading: Image.network(
+                          'https://drive.google.com/uc?export=view&id=193qhbAygSUyOHIxiFAonnsENpA6SuQmW'),
+                      title: Text(_audioList[index]["name"]),
+                      onTap: () {
+                        displayPersistentBottomSheet(
+                            _audioList[index]['id'], _audioList[index]["name"]);
+                      },
+                    );
+                  }),
         ),
       ),
     );

@@ -38,39 +38,8 @@ class _VideoPageState extends State<VideoPage>
     _scrollController = ScrollController();
   }
 
-  Widget showAlert() {
-    return Container(
-      color: Colors.blue.shade800,
-      width: double.infinity,
-      padding: const EdgeInsets.all(8.0),
-      child: Row(children: [
-        const Padding(
-          padding: EdgeInsets.only(right: 8.0),
-          child: Icon(Icons.error_outline, color: Colors.white),
-        ),
-        Row(
-          children: [
-            const Expanded(
-                child: Text('Weak or No Internet Connection',
-                    style: TextStyle(
-                      color: Colors.white,
-                    ))),
-            TextButton(
-              child:
-                  const Text('Refresh', style: TextStyle(color: Colors.white)),
-              onPressed: () => _loadVideos(),
-            ),
-          ],
-        ),
-        IconButton(
-          icon: const Icon(Icons.close),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          color: Colors.white,
-        ),
-      ]),
-    );
+  retry() {
+    _loadVideos();
   }
 
   _loadVideos() async {
@@ -83,7 +52,7 @@ class _VideoPageState extends State<VideoPage>
       _videoList.videos.addAll(tempVideosList.videos);
       setState(() => isLoading = false);
     } catch (e) {
-      showAlert();
+      retry();
     }
   }
 

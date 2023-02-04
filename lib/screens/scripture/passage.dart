@@ -51,14 +51,12 @@ class _PassageState extends State<Passage> {
           title: Text(widget.passageId),
           backgroundColor: Colors.blue[800],
         ),
-        body: Center(
-          child: isLoading
-              ? const CircularProgressIndicator()
-              : Container(
-                  padding: const EdgeInsets.all(10.0),
-                  child: SingleChildScrollView(
-                      child: SelectableText(_passageMap["content"].toString())),
-                ),
-        ));
+        body: isLoading
+            ? const Center(child: CircularProgressIndicator())
+            : Container(
+                padding: const EdgeInsets.all(10.0),
+                child: SingleChildScrollView(
+                    child: SelectableText(_passageMap["content"].toString())),
+              ));
   }
 }

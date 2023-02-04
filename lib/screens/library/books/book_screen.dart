@@ -21,19 +21,27 @@ class _BookScreenState extends State<BookScreen>
   @override
   bool get wantKeepAlive => true;
 
+  retry() {
+    getListOfBooks();
+  }
+
   getListOfBooks() async {
-    await getImages();
-    urls = await getDownloadUrls(imageNames);
+    try {
+      await getImages();
+      urls = await getDownloadUrls(imageNames);
 
-    final storageRef = FirebaseStorage.instance.ref();
+      final storageRef = FirebaseStorage.instance.ref();
 
-    final listResult = await storageRef.listAll();
+      final listResult = await storageRef.listAll();
 
-    for (var item in listResult.items) {
-      // debugPrint(item.name);
-      items.add(item.name);
-      setState(() => isLoading = false);
-      //The items under storageRef.
+      for (var item in listResult.items) {
+        // debugPrint(item.name);
+        items.add(item.name);
+        setState(() => isLoading = false);
+        //The items under storageRef.
+      }
+    } catch (e) {
+      retry();
     }
   }
 
