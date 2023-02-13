@@ -1,16 +1,5 @@
-# flutter_application_2
+# NCF App
 
-A new Flutter project.
+A project built with flutter/dart 
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Built for New Covenant Family,  the student body of Dominion city church with features such as video streaming,  audio streaming, video conferencing,  books, 14 translations of the Bible, payments (flutterwave integration)
